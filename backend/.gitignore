@@ -1,0 +1,148 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+*.egg-info/
+dist/
+build/
+develop-eggs/
+eggs/
+parts/
+sdist/
+var/
+*.egg
+*.eggs/
+*.manifest
+*.spec
+*.cover
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*,cover
+.hypothesis/
+.pytest_cache/
+.mypy_cache/
+.dmypy.json
+.pytype/
+dmypy.json
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+env.bak/
+venv.bak/
+
+# Poetry & Pipenv
+.poetry/
+Pipfile.lock
+poetry.lock
+
+# FastAPI / Uvicorn / dev files
+*.log
+*.log.*
+uvicorn.error.log
+uvicorn.access.log
+test-results/
+coverage/
+test-report/
+tests/__pycache__/
+
+# PyCharm / JetBrains IDEs
+.idea/
+*.iml
+*.iws
+.idea_modules/
+*.sublime-*
+out/
+cmake-build-*/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries/
+.idea/shelf/
+.idea/dataSources/
+.idea/dataSources.ids
+.idea/sqlDataSources.xml
+.idea/datasources.xml
+.idea/scopes/
+.idea/inspectionProfiles/
+.idea/runConfigurations/
+.idea/deploymentTargetSelector.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/codeStyles/
+.idea/compiler.xml
+.idea/gradle.xml
+.idea/markdown-navigator/
+
+# Environment variables & secrets
+.env
+.env.local
+.env.*.local
+.env.development
+.env.production
+.envrc
+*.env.example
+!.env.example   # ← usually you want to commit the template
+
+# Testing & coverage reports
+htmlcov/
+.coverage
+coverage.xml
+*.cover
+coverage/
+test-results/
+junit.xml
+coverage.lcov
+
+# Dependency directories (sometimes people install locally)
+node_modules/
+bower_components/
+
+# macOS junk
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows junk
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux / cross-platform temp files
+*~
+.~*
+*.swp
+*.swo
+*.swn
+.fuse_hidden*
+
+# Database files (if you use SQLite locally)
+*.sqlite
+*.sqlite3
+*.db
+*.db-shm
+*.db-wal
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# Editor directories and files
+.vscode/
+*.code-workspace
