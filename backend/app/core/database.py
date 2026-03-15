@@ -1,22 +1,53 @@
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.orm import sessionmaker, declarative_base
-from app.core.config import settings
+# app/core/database.py
+import os
+from dotenv import load_dotenv
+from sqlalchemy import make_url
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from sqlalchemy.orm import DeclarativeBase
+
+load_dotenv()
+
+DATABASE_URL_STR = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL_STR:
+    raise ValueError("DATABASE_URL not found")
+
+original_url = make_url(DATABASE_URL_STR)
+
+query_dict = dict(original_url.query)
+
+# remove unsupported params for asyncpg
+query_dict.pop("sslmode", None)
+query_dict.pop("channel_binding", None)
+
+# ensure ssl works with asyncpg
+query_dict["ssl"] = "require"
+
+fixed_url = original_url.set(query=query_dict)
 
 engine = create_async_engine(
-    settings.database_url,
-    echo=True,
-    pool_pre_ping=True
+    fixed_url,
+    echo=False,
+    pool_pre_ping=True,
+    pool_recycle=300
 )
 
-AsyncSessionLocal = sessionmaker(
+AsyncSessionLocal = async_sessionmaker(
     engine,
     class_=AsyncSession,
-    expire_on_commit=False
+    expire_on_commit=False,
 )
 
-Base = declarative_base()
+
+class Base(DeclarativeBase):
+    pass
 
 
 async def get_db():
     async with AsyncSessionLocal() as session:
-        yield session
+        try:
+            yield session
+            await session.commit()
+        except:
+            await session.rollback()
+            raise
