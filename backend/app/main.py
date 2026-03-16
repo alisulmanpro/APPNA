@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api.v2.endpoints import health
+from app.api.v2.endpoints.health import router as health_check
 
 app = FastAPI(
     title="APPNA AI Command Center",
@@ -29,4 +29,4 @@ All protected routes require `Bearer` JWT token.
     redoc_url="/redoc",
 )
 
-app.include_router(health.health_check)
+app.include_router(health_check)
