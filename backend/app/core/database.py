@@ -1,46 +1,26 @@
-# app/core/database.py
-import os
-from dotenv import load_dotenv
-from sqlalchemy import make_url
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
-from sqlalchemy.orm import DeclarativeBase
+import sys
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from app.core.config import settings
 
-load_dotenv()
-
-DATABASE_URL_STR = os.getenv("DATABASE_URL")
-
-if not DATABASE_URL_STR:
-    raise ValueError("DATABASE_URL not found")
-
-original_url = make_url(DATABASE_URL_STR)
-
-query_dict = dict(original_url.query)
-
-# remove unsupported params for asyncpg
-query_dict.pop("sslmode", None)
-query_dict.pop("channel_binding", None)
-
-# ensure ssl works with asyncpg
-query_dict["ssl"] = "require"
-
-fixed_url = original_url.set(query=query_dict)
-
-engine = create_async_engine(
-    fixed_url,
-    echo=False,
-    pool_pre_ping=True,
-    pool_recycle=300
-)
+try:
+    engine = create_async_engine(
+        settings.database_url,
+        pool_size=5,
+        max_overflow=10,
+        pool_pre_ping=True,
+        echo=False,
+    )
+except Exception as e:
+    print(f"\n DATABASE ENGINE ERROR — Could not initialize engine:")
+    print(f"   {e}")
+    print(f"\n  Check your DATABASE_URL format in .env")
+    sys.exit(1)
 
 AsyncSessionLocal = async_sessionmaker(
     engine,
     class_=AsyncSession,
     expire_on_commit=False,
 )
-
-
-class Base(DeclarativeBase):
-    pass
 
 
 async def get_db():

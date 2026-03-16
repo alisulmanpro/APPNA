@@ -1,14 +1,20 @@
-# app/core/config.py
+import sys
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import ValidationError
 
 class Settings(BaseSettings):
-    DATABASE_URL: str
+    model_config = SettingsConfigDict(env_file=".env")
 
-    model_config = SettingsConfigDict(
-        env_file=".env",
-        env_file_encoding="utf-8",
-        case_sensitive=False,
-        extra="ignore"
-    )
+    database_url: str
 
-settings = Settings()
+try:
+    settings = Settings()
+except ValidationError as e:
+    print("\n __CONFIG ERROR__ — Missing required environment variables:\n")
+    for err in e.errors():
+        field = err["loc"][0]
+        print(f"   ✗ '{field}' is missing from your .env file")
+    print("\n > Make sure your .env file exists and contains:\n")
+    print("   DATABASE_URL=\"postgresql+asyncpg://...\"")
+    print()
+    sys.exit(1)
