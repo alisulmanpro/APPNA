@@ -12,6 +12,7 @@ dependencies = [
     "asyncpg>=0.31.0",
     "fastapi[standard]>=0.135.1",
     "passlib[bcrypt]>=1.7.4",
+    "psycopg2-binary>=2.9.11",
     "pydantic-settings>=2.13.1",
     "pyjwt>=2.12.1",
     "python-dotenv>=1.2.2",
