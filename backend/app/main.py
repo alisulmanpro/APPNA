@@ -1,5 +1,14 @@
 from fastapi import FastAPI
-from app.api.v2.endpoints.health import router as health_check
+from app.api.v2.endpoints.health import router as health_check_router
+from app.api.v1.endpoints.crm.add_member import router as add_member_router
+from app.api.v1.endpoints.crm.update_member import router as update_member_router
+from app.api.v1.endpoints.crm.delete_member import router as delete_member_router
+from app.api.v1.endpoints.crm.view_member import router as view_member_router
+from app.api.v1.endpoints.crm.list_members import router as list_members_router
+from app.api.v1.endpoints.crm.search_members import router as search_members_router
+from app.api.v1.endpoints.crm.filter_members import router as filter_members_router
+from app.api.v1.endpoints.crm.export_members import router as export_members_router
+from app.api.v1.endpoints.crm.import_members import router as import_members_router
 
 app = FastAPI(
     title="APPNA AI Command Center",
@@ -29,4 +38,15 @@ All protected routes require `Bearer` JWT token.
     redoc_url="/redoc",
 )
 
-app.include_router(health_check)
+app.include_router(health_check_router)
+
+# ── CRM ───────────────────────────────────────────────────────
+app.include_router(add_member_router, prefix="/api/v1", tags=["CRM"])
+app.include_router(update_member_router, prefix="/api/v1", tags=["CRM"])
+app.include_router(delete_member_router, prefix="/api/v1", tags=["CRM"])
+app.include_router(list_members_router, prefix="/api/v1", tags=["CRM"])
+app.include_router(import_members_router, prefix="/api/v1", tags=["CRM"])
+app.include_router(export_members_router, prefix="/api/v1", tags=["CRM"])
+app.include_router(filter_members_router, prefix="/api/v1", tags=["CRM"])
+app.include_router(search_members_router, prefix="/api/v1", tags=["CRM"])
+app.include_router(view_member_router, prefix="/api/v1", tags=["CRM"])
