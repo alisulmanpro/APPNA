@@ -11,7 +11,7 @@ router = APIRouter()
 
 
 @router.post(
-    "/add-committees",
+    "/committees",
     response_model=CommitteeResponse,
     status_code=status.HTTP_201_CREATED,
     summary="Create a new committee",

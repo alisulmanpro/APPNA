@@ -5,9 +5,9 @@ from sqlalchemy import text
 from sqlalchemy.exc import OperationalError
 from app.core.database import get_db
 
-router = APIRouter(prefix="/health", tags=["Check Database Health"])
+router = APIRouter()
 
-@router.get("/")
+@router.get("/health")
 async def health_check(db: AsyncSession = Depends(get_db)):
     try:
         result = await db.execute(text("""
