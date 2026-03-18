@@ -18,3 +18,10 @@ class CommitteeResponse(BaseModel):
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
+
+class CommitteeUpdate(BaseModel):
+    name: str | None = None
+    description: str | None = None
+    chair_id: uuid.UUID | None = None
+    is_active: bool | None = None

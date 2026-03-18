@@ -22,6 +22,16 @@ from app.api.v1.endpoints.committees.add_committee_member import router as add_c
 from app.api.v1.endpoints.committees.remove_committee_member import router as remove_committee_member_router
 from app.api.v1.endpoints.committees.committee_activity import router as committee_activity_router
 
+from app.api.v1.endpoints.meetings.schedule_meeting import router as schedule_meeting_router
+from app.api.v1.endpoints.meetings.update_meeting import router as update_meeting_router
+from app.api.v1.endpoints.meetings.cancel_meeting import router as cancel_meeting_router
+from app.api.v1.endpoints.meetings.add_participants import router as add_participants_router
+from app.api.v1.endpoints.meetings.store_transcript import router as store_transcript_router
+from app.api.v1.endpoints.meetings.save_minutes import router as save_minutes_router
+from app.api.v1.endpoints.meetings.attach_documents import router as attach_documents_router
+from app.api.v1.endpoints.meetings.meeting_history import router as meeting_history_router
+
+
 app = FastAPI(
     title="APPNA AI Command Center",
     description="""
@@ -50,7 +60,13 @@ All protected routes require `Bearer` JWT token.
     redoc_url="/redoc",
 )
 
-app.include_router(health_check_router)
+# ── Main Router ───────────────────────────────────────────────────────
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+# ── Health Router ───────────────────────────────────────────────────────
+app.include_router(health_check_router, prefix="/api/v2", tags=["Health Router"])
 
 # ── CRM ───────────────────────────────────────────────────────
 app.include_router(add_member_router, prefix="/api/v1", tags=["CRM"])
@@ -63,7 +79,7 @@ app.include_router(filter_members_router, prefix="/api/v1", tags=["CRM"])
 app.include_router(search_members_router, prefix="/api/v1", tags=["CRM"])
 app.include_router(view_member_router, prefix="/api/v1", tags=["CRM"])
 
-# ── CRM ───────────────────────────────────────────────────────
+# ── Committees ───────────────────────────────────────────────────────
 app.include_router(create_committee_router, prefix="/api/v1", tags=["Committees"])
 app.include_router(update_committee_router, prefix="/api/v1", tags=["Committees"])
 app.include_router(delete_committee_router, prefix="/api/v1", tags=["Committees"])
@@ -73,3 +89,13 @@ app.include_router(assign_chair_router, prefix="/api/v1", tags=["Committees"])
 app.include_router(add_committee_member_router, prefix="/api/v1", tags=["Committees"])
 app.include_router(remove_committee_member_router, prefix="/api/v1", tags=["Committees"])
 app.include_router(committee_activity_router, prefix="/api/v1", tags=["Committees"])
+
+# ── Meetings ───────────────────────────────────────────────────────
+app.include_router(schedule_meeting_router, prefix="/api/v1", tags=["Meetings"])
+app.include_router(update_meeting_router, prefix="/api/v1", tags=["Meetings"])
+app.include_router(cancel_meeting_router, prefix="/api/v1", tags=["Meetings"])
+app.include_router(add_participants_router, prefix="/api/v1", tags=["Meetings"])
+app.include_router(store_transcript_router, prefix="/api/v1", tags=["Meetings"])
+app.include_router(save_minutes_router, prefix="/api/v1", tags=["Meetings"])
+app.include_router(attach_documents_router, prefix="/api/v1", tags=["Meetings"])
+app.include_router(meeting_history_router, prefix="/api/v1", tags=["Meetings"])

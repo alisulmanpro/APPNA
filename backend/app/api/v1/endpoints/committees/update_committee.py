@@ -2,21 +2,12 @@ import uuid
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from pydantic import BaseModel
-
 from app.core.database import get_db
 from app.models.committee import Committee
 from app.models.user import User
-from app.schemas.committee import CommitteeResponse
+from app.schemas.committee import CommitteeResponse, CommitteeUpdate
 
 router = APIRouter()
-
-
-class CommitteeUpdate(BaseModel):
-    name: str | None = None
-    description: str | None = None
-    chair_id: uuid.UUID | None = None
-    is_active: bool | None = None
 
 
 @router.patch(
