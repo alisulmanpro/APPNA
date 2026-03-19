@@ -36,9 +36,6 @@ from app.api.v1.endpoints.meetings.meeting_history import router as meeting_hist
 
 from dotenv import load_dotenv
 
-load_dotenv()
-
-
 app = FastAPI(
     title="APPNA AI Command Center",
     description="""
@@ -67,6 +64,7 @@ All protected routes require `Bearer` JWT token.
     redoc_url="/redoc",
 )
 
+load_dotenv()
 
 # ── CORS ──────────────────────────────────────────────────────
 app.add_middleware(
