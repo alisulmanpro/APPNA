@@ -10,7 +10,7 @@ export const createMeetingSchema = z.object({
     description: z.string().max(1000, "Description cannot exceed 1000 characters").optional().or(z.literal("")),
     location: z.string().max(200, "Location cannot exceed 200 characters").optional().or(z.literal("")),
     scheduled_at: z.string().min(1, "Please select a date and time"),
-    duration_minutes: z.coerce
+    duration_minutes: z
         .number()
         .min(15, "Minimum duration is 15 minutes")
         .max(480, "Maximum duration is 8 hours"),
@@ -38,7 +38,7 @@ export const updateMeetingSchema = z.object({
     description: z.string().max(1000).optional().or(z.literal("")),
     location: z.string().max(200).optional().or(z.literal("")),
     scheduled_at: z.string().optional(),
-    duration_minutes: z.coerce.number().min(15).max(480).optional(),
+    duration_minutes: z.number().min(15).max(480).optional(),
     committee_id: z.string().optional().or(z.literal("")),
 });
 

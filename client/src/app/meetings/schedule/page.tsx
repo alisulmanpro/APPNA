@@ -8,7 +8,7 @@ import Link from "next/link";
 import { createMeetingSchema, CreateMeetingFormValues } from "@/lib/validations/meetingSchema";
 import PageHeader from "@/components/layout/PageHeader";
 import ParticipantBadge from "@/components/meetings/ParticipantBadge";
-import { useCreateMeeting } from "@/lib/hooks/useMeetings";
+import { useCreateMeeting, useAddParticipants } from "@/lib/hooks/useMeetings";
 import { useCommittees, useMembers } from "@/lib/hooks/useOrganization";
 import { useState } from "react";
 import { Participant } from "@/types";
@@ -28,8 +28,11 @@ export default function ScheduleMeetingPage() {
     const router = useRouter();
     const [selectedParticipants, setSelectedParticipants] = useState<Participant[]>([]);
 
-    // ── Real API mutation ──────────────────────────────────────────────────────
-    const { mutate: createMeeting, isPending } = useCreateMeeting();
+    // ── Real API mutations ─────────────────────────────────────────────────────
+    const { mutate: createMeeting, isPending: isCreating } = useCreateMeeting();
+    const { mutate: addParticipants, isPending: isAddingParticipants } = useAddParticipants();
+
+    const isPending = isCreating || isAddingParticipants;
 
     // ── Real API queries ───────────────────────────────────────────────────────
     const { data: committees = [] } = useCommittees({ limit: 100 });
@@ -66,13 +69,30 @@ export default function ScheduleMeetingPage() {
                 description: values.description || null,
                 location: values.location || null,
                 scheduled_at: new Date(values.scheduled_at).toISOString(),
-                duration_minutes: Number(values.duration_minutes),
+                duration_minutes: values.duration_minutes,
                 committee_id: values.committee_id || null,
                 scheduled_by_id: values.scheduled_by_id || null,
             },
             {
-                onSuccess: () => {
-                    router.push("/meetings");
+                onSuccess: (newMeeting) => {
+                    // If we have participants, add them after creating the meeting
+                    if (selectedParticipants.length > 0) {
+                        addParticipants(
+                            {
+                                id: newMeeting.id,
+                                payload: {
+                                    participant_ids: selectedParticipants.map((p) => p.id),
+                                },
+                            },
+                            {
+                                onSuccess: () => {
+                                    router.push("/meetings");
+                                },
+                            }
+                        );
+                    } else {
+                        router.push("/meetings");
+                    }
                 },
             }
         );
@@ -184,7 +204,7 @@ export default function ScheduleMeetingPage() {
                                 </span>
                             </label>
                             <select
-                                {...register("duration_minutes")}
+                                {...register("duration_minutes", { valueAsNumber: true })}
                                 className={`select select-bordered select-sm w-full ${errors.duration_minutes ? "select-error" : ""}`}
                             >
                                 {DURATION_OPTIONS.map((o) => (
@@ -234,11 +254,16 @@ export default function ScheduleMeetingPage() {
                             <option value="">— Select a member to add</option>
                             {members
                                 .filter((p) => !selectedParticipants.find((sp) => sp.id === p.id))
-                                .map((p) => (
-                                    <option key={p.id} value={p.id}>
-                                        {p.first_name || ""} {p.last_name || ""}
-                                    </option>
-                                ))}
+                                .map((p) => {
+                                    const fullName = p.first_name && p.last_name
+                                        ? `${p.first_name} ${p.last_name}`
+                                        : p.name || p.first_name || p.last_name || "Unknown Member";
+                                    return (
+                                        <option key={p.id} value={p.id}>
+                                            {fullName}
+                                        </option>
+                                    );
+                                })}
                         </select>
                     </div>
                     {selectedParticipants.length > 0 ? (
