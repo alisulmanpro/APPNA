@@ -1,5 +1,8 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
 
 from app.api.v2.endpoints.health import router as health_check_router
 
@@ -32,6 +35,8 @@ from app.api.v1.endpoints.meetings.save_minutes import router as save_minutes_ro
 from app.api.v1.endpoints.meetings.attach_documents import router as attach_documents_router
 from app.api.v1.endpoints.meetings.meeting_history import router as meeting_history_router
 
+load_dotenv()
+
 
 app = FastAPI(
     title="APPNA AI Command Center",
@@ -61,11 +66,13 @@ All protected routes require `Bearer` JWT token.
     redoc_url="/redoc",
 )
 
+
 # ── CORS ──────────────────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",   # Next.js dev
+        os.getenv("ACCEPT_URL")
     ],
     allow_credentials=True,
     allow_methods=["*"],
