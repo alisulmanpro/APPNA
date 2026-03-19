@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.v2.endpoints.health import router as health_check_router
 
@@ -58,6 +59,17 @@ All protected routes require `Bearer` JWT token.
     },
     docs_url="/docs",
     redoc_url="/redoc",
+)
+
+# ── CORS ──────────────────────────────────────────────────────
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",   # Next.js dev
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # ── Main Router ───────────────────────────────────────────────────────
