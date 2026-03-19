@@ -2,7 +2,6 @@ import os
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from dotenv import load_dotenv
 
 from app.api.v2.endpoints.health import router as health_check_router
 
@@ -34,6 +33,8 @@ from app.api.v1.endpoints.meetings.store_transcript import router as store_trans
 from app.api.v1.endpoints.meetings.save_minutes import router as save_minutes_router
 from app.api.v1.endpoints.meetings.attach_documents import router as attach_documents_router
 from app.api.v1.endpoints.meetings.meeting_history import router as meeting_history_router
+
+from dotenv import load_dotenv
 
 load_dotenv()
 
