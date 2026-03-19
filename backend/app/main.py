@@ -67,21 +67,38 @@ All protected routes require `Bearer` JWT token.
 load_dotenv()
 
 # ── CORS ──────────────────────────────────────────────────────
+allowed_origins = [
+    "http://localhost:3000",  # Next.js dev (adjust port if using Vite: 5173)
+    "http://localhost:5173",
+]
+
+# Production origin from env (remove trailing slash!)
+prod_origin = os.getenv("ACCEPT_URL")
+if prod_origin:
+    # Normalize: remove trailing slash if present
+    prod_origin = prod_origin.rstrip("/")
+    allowed_origins.append(prod_origin)
+else:
+    # Fallback during debug – never leave "*" in production!
+    print("WARNING: ACCEPT_URL not set → using wildcard for debug only")
+    allowed_origins.append("*")  # ← temporary debug only
+
+print("Allowed CORS origins:", allowed_origins)  # ← see this in Railway logs!
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",   # Next.js dev
-        os.getenv("ACCEPT_URL")
-    ],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+
 # ── Main Router ───────────────────────────────────────────────────────
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
+
 
 # ── Health Router ───────────────────────────────────────────────────────
 app.include_router(health_check_router, prefix="/api/v2", tags=["Health Router"])
