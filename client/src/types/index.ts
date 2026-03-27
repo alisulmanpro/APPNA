@@ -1,3 +1,89 @@
+// ─── Auth Types ───────────────────────────────────────────────────────────────
+
+export type UserRole = "president" | "admin" | "committee_chair" | "member";
+
+export interface AuthUser {
+  id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  role: UserRole;
+  is_active: boolean;
+}
+
+// ─── Member Types ─────────────────────────────────────────────────────────────
+
+export interface Member {
+  id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  phone: string | null;
+  location: string | null;
+  bio?: string | null;
+  role: UserRole;
+  is_active: boolean;
+  is_email_verified: boolean;
+  profile_picture_url?: string | null;
+  created_at?: string;
+}
+
+export interface MemberCreate {
+  email: string;
+  password: string;
+  first_name: string;
+  last_name: string;
+  phone?: string | null;
+  location?: string | null;
+  bio?: string | null;
+  role?: UserRole;
+}
+
+export interface MemberUpdate {
+  email?: string;
+  first_name?: string;
+  last_name?: string;
+  phone?: string | null;
+  location?: string | null;
+  bio?: string | null;
+  role?: UserRole;
+  is_active?: boolean;
+}
+
+// ─── Committee Types ──────────────────────────────────────────────────────────
+
+export interface Committee {
+  id: string;
+  name: string;
+  description?: string | null;
+  is_active?: boolean;
+  chair_id?: string | null;
+  chair?: Member | null;
+  created_at?: string;
+  member_count?: number;
+}
+
+export interface CommitteeMemberEntry {
+  id: string;
+  committee_id: string;
+  user_id: string;
+  joined_at: string;
+  user?: Member;
+}
+
+export interface CommitteeCreate {
+  name: string;
+  description?: string | null;
+  chair_id?: string | null;
+}
+
+export interface CommitteeUpdate {
+  name?: string;
+  description?: string | null;
+  chair_id?: string | null;
+  is_active?: boolean;
+}
+
 // ─── Meeting Types ────────────────────────────────────────────────────────────
 
 export type MeetingStatus = "scheduled" | "completed" | "cancelled";
@@ -7,7 +93,7 @@ export interface Meeting {
   title: string;
   description: string | null;
   location: string | null;
-  scheduled_at: string; // ISO datetime
+  scheduled_at: string;
   duration_minutes: number;
   status: MeetingStatus;
   committee_id: string | null;
@@ -72,22 +158,18 @@ export interface MeetingDocument {
   uploaded_at: string;
 }
 
-// ─── Committee Types ──────────────────────────────────────────────────────────
-
-export interface Committee {
-  id: string;
-  name: string;
-  description?: string | null;
-}
-
 // ─── API Response Types ───────────────────────────────────────────────────────
 
 export interface PaginatedResponse<T> {
   data: T[];
-  total: number;
-  page: number;
-  page_size: number;
-  total_pages: number;
+  pagination: {
+    page: number;
+    limit: number;
+    total: number;
+    total_pages: number;
+    has_next: boolean;
+    has_prev: boolean;
+  };
 }
 
 export interface MeetingFilters {
@@ -100,6 +182,15 @@ export interface MeetingFilters {
   page_size?: number;
 }
 
+export interface MemberFilters {
+  search?: string;
+  role?: UserRole | "all";
+  is_active?: boolean;
+  location?: string;
+  page?: number;
+  limit?: number;
+}
+
 // ─── Stats Types ──────────────────────────────────────────────────────────────
 
 export interface MeetingStats {
@@ -107,4 +198,11 @@ export interface MeetingStats {
   scheduled: number;
   completed: number;
   cancelled: number;
+}
+
+export interface DashboardStats {
+  totalMembers: number;
+  totalCommittees: number;
+  upcomingMeetings: number;
+  completedMeetings: number;
 }

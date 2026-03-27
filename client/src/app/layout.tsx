@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
 
-const inter = Inter({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   display: "swap",
 });
@@ -19,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="corporate" className={inter.className}>
-      <body className="antialiased">
+    <html lang="en" data-theme="corporate" >
+      <body className={`antialiased ${plusJakartaSans.className}`}>
         <Providers>{children}</Providers>
       </body>
     </html>
