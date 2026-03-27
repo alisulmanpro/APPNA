@@ -4,6 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from app.core.database import get_db
+from app.core.dependencies import require_admin
 from app.models.user import User
 
 router = APIRouter()
@@ -17,6 +18,7 @@ router = APIRouter()
 async def delete_member(
         member_id: uuid.UUID,
         db: AsyncSession = Depends(get_db),
+        current_user: User = Depends(require_admin), 
 ):
     # ── Fetch member ──────────────────────────────────
     result = await db.execute(select(User).where(User.id == member_id))

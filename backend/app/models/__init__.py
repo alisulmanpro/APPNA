@@ -6,6 +6,7 @@ from app.models.documents import Document, DocumentApproval, DocumentStatus, App
 from app.models.meeting import Meeting, MeetingParticipant, MeetingDocument, MeetingStatus
 from app.models.events import Event, EventAttendee, EventVendor, EventStatus
 from app.models.notifications import Notification, Announcement, NotificationType
+from app.models.token_blacklist import TokenBlacklist
 
 __all__ = [
     "Base",
