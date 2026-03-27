@@ -156,3 +156,8 @@ app.include_router(change_password_router, prefix="/api/v1", tags=["Auth"])
 app.include_router(reset_password_router, prefix="/api/v1", tags=["Auth"])
 app.include_router(verify_email_router, prefix="/api/v1", tags=["Auth"])
 app.include_router(account_status_router, prefix="/api/v1", tags=["Auth"])
+
+# ── Email ───────────────────────────────────────────────────────
+from app.api.v1.endpoints.email.email_services import router as email_services_router
+
+app.include_router(email_services_router, prefix="/api/v1", tags=["Email"])
