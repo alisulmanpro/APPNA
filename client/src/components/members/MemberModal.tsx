@@ -36,7 +36,7 @@ export default function MemberModal({ member }: MemberModalProps) {
         reset,
         formState: { errors },
     } = useForm<MemberFormValues>({
-        resolver: zodResolver(memberSchema),
+        resolver: zodResolver(memberSchema) as any,
         defaultValues: {
             first_name: "",
             last_name: "",

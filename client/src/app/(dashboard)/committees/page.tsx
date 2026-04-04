@@ -53,7 +53,7 @@ export default function CommitteesPage() {
                             <div className="font-semibold text-base-content leading-tight hover:text-primary transition-colors cursor-pointer">
                                 <Link href={`/committees/${c.id}`}>{c.name}</Link>
                             </div>
-                            <div className="text-xs text-base-content/60 max-w-xs truncate" title={c.description}>
+                            <div className="text-xs text-base-content/60 max-w-xs truncate" title={c.description || ""}>
                                 {c.description || "No description provided"}
                             </div>
                         </div>

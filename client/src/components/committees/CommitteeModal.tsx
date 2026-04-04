@@ -34,7 +34,7 @@ export default function CommitteeModal({ committee }: CommitteeModalProps) {
         reset,
         formState: { errors },
     } = useForm<CommitteeFormValues>({
-        resolver: zodResolver(committeeSchema),
+        resolver: zodResolver(committeeSchema) as any,
         defaultValues: {
             name: "",
             description: "",

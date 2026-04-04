@@ -16,7 +16,8 @@ import {
     Activity,
     Download,
     RefreshCw,
-    MessageSquare
+    MessageSquare,
+    Building2
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -132,8 +133,8 @@ export default function MeetingDetailPage() {
 
             {/* ── Header Card ── */}
             <div className="bg-base-100 rounded-3xl border border-base-200 overflow-hidden shadow-sm">
-                <div className="h-20 bg-gradient-to-r from-warning/10 via-warning/5 to-base-100 relative">
-                    <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-warning/20 to-transparent"></div>
+                <div className="h-20 bg-linear-to-r from-warning/10 via-warning/5 to-base-100 relative">
+                    <div className="absolute inset-x-0 bottom-0 h-px bg-linear-to-r from-warning/20 to-transparent"></div>
                 </div>
 
                 <div className="px-6 md:px-8 pb-8 pt-4">
@@ -420,10 +421,10 @@ export default function MeetingDetailPage() {
                                 <p className="text-xs font-semibold uppercase tracking-wider text-base-content/40 mb-1">Created Record</p>
                                 <p className="text-sm font-medium text-base-content">{formatDate(meeting.created_at)}</p>
                             </div>
-                            {meeting.updated_at && (
+                            {meeting.created_at && (
                                 <div>
                                     <p className="text-xs font-semibold uppercase tracking-wider text-base-content/40 mb-1">Last Modified</p>
-                                    <p className="text-sm font-medium text-base-content">{formatDate(meeting.updated_at)}</p>
+                                    <p className="text-sm font-medium text-base-content">{formatDate(meeting.created_at)}</p>
                                 </div>
                             )}
                         </div>
