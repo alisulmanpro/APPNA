@@ -61,7 +61,7 @@ export default function Sidebar() {
             {/* Brand */}
             <div className="p-5 border-b border-base-300">
                 <Link href="/dashboard" className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center flex-shrink-0 shadow-sm animate-fade-in">
+                    <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shrink-0 shadow-sm animate-fade-in">
                         <span className="text-primary-content font-bold text-sm tracking-widest">APP</span>
                     </div>
                     <div>
@@ -79,7 +79,7 @@ export default function Sidebar() {
                             {group.label}
                         </p>
                         <ul className="space-y-1">
-                            {group.items.map(({ href, label, icon: Icon, exact, disabled }) => {
+                            {group.items.map(({ href, label, icon: Icon, exact, disabled }: any) => {
                                 const active = isActive(href, exact);
                                 return (
                                     <li key={label}>
@@ -99,7 +99,7 @@ export default function Sidebar() {
                                                 size={18}
                                                 strokeWidth={active ? 2.5 : 2}
                                                 className={clsx(
-                                                    "flex-shrink-0 transition-transform duration-200",
+                                                    "shrink-0 transition-transform duration-200",
                                                     active
                                                         ? "text-primary-content"
                                                         : "text-base-content/50 group-hover:text-base-content group-hover:scale-110"

@@ -39,6 +39,10 @@ class User(BaseModel):
     password_reset_token: Mapped[str | None] = mapped_column(String(255), nullable=True)
     email_verify_token: Mapped[str | None] = mapped_column(String(255), nullable=True)
 
+    # New field for refresh token (e.g., for JWT refresh token rotation)
+    # You can store the raw token here (or hash it in your auth service for extra security).
+    refresh_token: Mapped[str | None] = mapped_column(String(255), nullable=True)
+
     # ── Relationships ─────────────────────────────────
     committee_memberships: Mapped[list["CommitteeMember"]] = relationship(
         back_populates="user", cascade="all, delete-orphan"

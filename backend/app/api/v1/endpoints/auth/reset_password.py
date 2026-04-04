@@ -8,7 +8,6 @@ from datetime import datetime, timezone, timedelta
 
 from app.core.database import get_db
 from app.models.user import User
-from app.services.email import send_password_reset_email
 
 router = APIRouter()
 
@@ -65,11 +64,7 @@ async def forgot_password(
 
     # ── Send email ─────────────────────────────────────
     try:
-        await send_password_reset_email(
-            to_email=user.email,
-            first_name=user.first_name,
-            reset_token=reset_token,
-        )
+        pass
     except Exception as e:
         # rollback token if email fails
         user.password_reset_token = None

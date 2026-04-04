@@ -1,5 +1,6 @@
 from pydantic import BaseModel, EmailStr, field_validator
 from app.models.user import UserRole
+from uuid import UUID
 
 
 class RegisterRequest(BaseModel):
@@ -22,7 +23,7 @@ class RegisterRequest(BaseModel):
 
 
 class RegisterResponse(BaseModel):
-    id: str
+    id: UUID
     email: str
     first_name: str
     last_name: str
