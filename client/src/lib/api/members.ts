@@ -23,7 +23,7 @@ export async function getMember(id: string): Promise<Member> {
 }
 
 export async function createMember(payload: MemberCreate): Promise<Member> {
-    const { data } = await api.post<Member>("/members", payload);
+    const { data } = await api.post<Member>("/add-members", payload);
     return data;
 }
 
