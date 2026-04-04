@@ -8,16 +8,13 @@ class Settings(BaseSettings):
 
     database_url: str
     database_url_sync: str
-
     secret_key: str
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 480
     refresh_token_expire_days: int = 7
-
     accept_url: str = "http://localhost:3000"
-
-    resend_api_key: str = "re_6WRc6hLV_8SwGijxP3oPigcw7F9NvK23o"
-    from_email: str = "alisulmanpro1470@gmail.com"
+    resend_api_key: str
+    from_email: str = "APPNA <info@twtnews.club>"
 
 
 try:

@@ -137,7 +137,7 @@ app.include_router(attach_documents_router, prefix="/api/v1", tags=["Meetings"])
 app.include_router(meeting_history_router, prefix="/api/v1", tags=["Meetings"])
 
 # ── Auth ───────────────────────────────────────────────────────
-from app.api.v1.endpoints.auth.register import router as register_router
+from app.api.v2.endpoints.auth.register import router as register_router
 from app.api.v1.endpoints.auth.login import router as login_router
 from app.api.v1.endpoints.auth.refresh import router as refresh_router
 from app.api.v1.endpoints.auth.logout import router as logout_router
@@ -147,7 +147,7 @@ from app.api.v1.endpoints.auth.reset_password import router as reset_password_ro
 from app.api.v1.endpoints.auth.verify_email import router as verify_email_router
 from app.api.v1.endpoints.auth.account_status import router as account_status_router
 
-app.include_router(register_router, prefix="/api/v1", tags=["Auth"])
+app.include_router(register_router, prefix="/api/v2", tags=["Auth"])
 app.include_router(login_router, prefix="/api/v1", tags=["Auth"])
 app.include_router(refresh_router, prefix="/api/v1", tags=["Auth"])
 app.include_router(logout_router, prefix="/api/v1", tags=["Auth"])
