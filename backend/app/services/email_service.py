@@ -120,8 +120,7 @@ class APPNAEmail:
     BRAND_NAME = "APPNA"
 
     def __init__(self):
-        # resend.api_key = settings.resend_api_key
-        resend.api_key = "re_4G2T8FpK_LTipajmvNHs1bi6QzQZz1BCr"
+        resend.api_key = settings.resend_api_key
         self.from_email = settings.from_email
 
     async def send(self, email_type: EmailType, payload: EmailPayload) -> dict:

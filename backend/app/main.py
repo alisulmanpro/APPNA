@@ -118,19 +118,19 @@ app.include_router(remove_committee_member_router, prefix="/api/v1", tags=["Comm
 app.include_router(committee_activity_router, prefix="/api/v1", tags=["Committees"])
 
 # ── Meetings ───────────────────────────────────────────────────────
-from app.api.v1.endpoints.meetings.schedule_meeting import router as schedule_meeting_router
+from app.api.v2.endpoints.meetings.schedule_meeting import router as schedule_meeting_router
 from app.api.v1.endpoints.meetings.update_meeting import router as update_meeting_router
 from app.api.v1.endpoints.meetings.cancel_meeting import router as cancel_meeting_router
-from app.api.v1.endpoints.meetings.add_participants import router as add_participants_router
+from app.api.v2.endpoints.meetings.add_participants import router as add_participants_router
 from app.api.v1.endpoints.meetings.store_transcript import router as store_transcript_router
 from app.api.v1.endpoints.meetings.save_minutes import router as save_minutes_router
 from app.api.v1.endpoints.meetings.attach_documents import router as attach_documents_router
 from app.api.v1.endpoints.meetings.meeting_history import router as meeting_history_router
 
-app.include_router(schedule_meeting_router, prefix="/api/v1", tags=["Meetings"])
+app.include_router(schedule_meeting_router, prefix="/api/v2", tags=["Meetings"])
 app.include_router(update_meeting_router, prefix="/api/v1", tags=["Meetings"])
 app.include_router(cancel_meeting_router, prefix="/api/v1", tags=["Meetings"])
-app.include_router(add_participants_router, prefix="/api/v1", tags=["Meetings"])
+app.include_router(add_participants_router, prefix="/api/v2", tags=["Meetings"])
 app.include_router(store_transcript_router, prefix="/api/v1", tags=["Meetings"])
 app.include_router(save_minutes_router, prefix="/api/v1", tags=["Meetings"])
 app.include_router(attach_documents_router, prefix="/api/v1", tags=["Meetings"])
